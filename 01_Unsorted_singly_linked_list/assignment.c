@@ -1,16 +1,16 @@
-// insertion_at_any position
+// assignment problems solve - sum of all elements in the linked list , linear search for a particular value.
 #include <stdio.h>
 #include <stdlib.h>
-
 struct singly_linked_list
 {
     int data;
     struct singly_linked_list *next;
 };
+
 struct singly_linked_list *create(struct singly_linked_list *start, int n)
 {
     struct singly_linked_list *p, *q;
-    int i, v;
+    int value;
     if (n <= 0)
     {
         return NULL;
@@ -18,17 +18,17 @@ struct singly_linked_list *create(struct singly_linked_list *start, int n)
     else
     {
         p = (struct singly_linked_list *)malloc(sizeof(struct singly_linked_list));
-        printf("Enter the value of v :");
-        scanf("%d", &v);
-        p->data = v;
+        printf("Enter the value of value :");
+        scanf("%d", &value);
+        p->data = value;
         p->next = NULL;
         start = p;
         for (int i = 2; i <= n; i++)
         {
             q = (struct singly_linked_list *)malloc(sizeof(struct singly_linked_list));
-            printf("Enter the value of v :");
-            scanf("%d", &v);
-            q->data = v;
+            printf("Enter the value of value :");
+            scanf("%d", &value);
+            q->data = value;
             q->next = NULL;
             p->next = q;
             p = p->next;
@@ -36,68 +36,51 @@ struct singly_linked_list *create(struct singly_linked_list *start, int n)
     }
     return start;
 }
-
 void traverse(struct singly_linked_list *start)
 {
+    int sum = 0;
     struct singly_linked_list *p;
     p = start;
     while (p != NULL)
     {
         printf("%d -> ", p->data);
+        sum += p->data; // evaluating the sum of the node
         p = p->next;
     }
     printf("NULL\n");
+    printf("The sum of the values in node is %d \n", sum);
 }
-int count(struct singly_linked_list *start)
+
+void linear_search(struct singly_linked_list *start)
 {
     struct singly_linked_list *p;
     p = start;
-    int c = 0;
+    int value, index = 1;
+    printf("Enter the value to search: ");
+    scanf("%d", &value);
     while (p != NULL)
     {
+
+        if (value == p->data)
+        {
+            printf("Value %d found in the list and index is %d \n", value, index);
+            return;
+        }
+
         p = p->next;
-        c = c + 1;
+        index++;
     }
-    return c;
+    printf("Value %d not found in the list.\n", value);
 }
 
-struct singly_linked_list *insertion_at_position(struct singly_linked_list *start)
-{
-    int n, pos, val;
-    printf("enter the position where you want to insert a node :");
-    scanf("%d", &pos);
-    struct singly_linked_list *p, *q;
-    n = count(start);
-    if (pos <= 1 || pos > n)
-    {
-        printf("invalid position");
-        return start;
-    }
-    else
-    {
-        p = start; 
-        for (int i = 1; i < (pos - 1); i++)
-        {
-            p = p->next;
-        }
-        q = (struct singly_linked_list *)malloc(sizeof(struct singly_linked_list));
-        printf("Enter the value of val :");
-        scanf("%d", &val);
-        q->data = val;
-        q->next = p->next;
-        p->next = q;
-    }
-    return start;
-}
 int main()
 {
-    int n;
+    int n, a;
     struct singly_linked_list *start = NULL;
     printf("Enter the value of n :");
     scanf("%d", &n);
     start = create(start, n);
     traverse(start);
-    start = insertion_at_position(start);
-    traverse(start);
+    linear_search(start);
     return 0;
 }
