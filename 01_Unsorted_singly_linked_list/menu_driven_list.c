@@ -209,7 +209,7 @@ int main()
 
     while (1)
     {
-        printf("\nMenu:\n");
+        printf("\nMenu:\n"); 
         printf("1. Insert Node at beginning\n");
         printf("2. Insert Node at end\n");
         printf("3. Insert Node at Position\n");
@@ -240,7 +240,7 @@ int main()
             break;
         case 6:
             start = delete_at_any_pos(start);
-            traverse(start);
+           break;
         case 7:
             traverse(start);
             break;

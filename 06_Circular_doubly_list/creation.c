@@ -1,16 +1,15 @@
-// Circular singly unsorted linked list
+// Circular Doubly unsorted linked list
 
 #include <stdio.h>
 #include <stdlib.h>
 struct circular_list
 {
     int data;
-    struct circular_list *next;
+    struct circular_list *prev, *next;
 };
 struct circular_list *creation(struct circular_list *start, int n)
 {
     struct circular_list *p, *q;
-    int value;
     if (n <= 0)
     {
         return NULL;
@@ -18,19 +17,24 @@ struct circular_list *creation(struct circular_list *start, int n)
     else
     {
         p = (struct circular_list *)malloc(sizeof(struct circular_list));
+        int value;
         printf("Enter the value :");
         scanf("%d", &value);
         p->data = value;
+        p->prev = p;
         p->next = p;
         start = p;
         for (int i = 2; i <= n; i++)
         {
             q = (struct circular_list *)malloc(sizeof(struct circular_list));
+            int value;
             printf("Enter the value :");
             scanf("%d", &value);
             q->data = value;
+            q->prev = start;
             q->next = start;
             p->next = q;
+            p->prev = q;
             p = p->next;
         }
     }
@@ -52,7 +56,7 @@ void traverse(struct circular_list *start)
 int main()
 {
     int n;
-    printf("Enter the value of n:");
+    printf("Enter the no of nodes :");
     scanf("%d", &n);
     struct circular_list *start = NULL;
     start = creation(start, n);
