@@ -57,6 +57,12 @@ struct doubly_linked_list *insert(struct doubly_linked_list *start, int value)
 // Function to delete a node in a sorted doubly linked list
 struct doubly_linked_list *delete(struct doubly_linked_list *start)
 {
+    if (start == NULL)
+    {
+        printf("Empty list\n");
+        return NULL;
+    }
+
     int value;
     printf("Enter the value which you want to delete :");
     scanf("%d", &value);
@@ -76,6 +82,7 @@ struct doubly_linked_list *delete(struct doubly_linked_list *start)
         if (p == NULL)
         {
             printf("Value not found \n");
+            return start;
         }
     }
     q->next = p->next;
@@ -97,32 +104,40 @@ void traverse_beginning(struct doubly_linked_list *start)
     printf("NULL\n");
 }
 
-// void traverse_end(struct doubly_linked_list *start)
-// {
-//     struct doubly_linked_list *p;
-//     p = start;
-//     while (p->next != NULL)
-//     {
-//         p = p->next;
-//     }
-//     printf("NULL ");
-//     while (p != NULL)
-//     {
-//         printf("<- %d ", p->data);
-//         p = p->prev;
-//     }
-// }
+void traverse_end(struct doubly_linked_list *start)
+{
+    if (start == NULL)
+    {
+        printf("NULL \n");
+        return;
+    }
+    struct doubly_linked_list *p;
+    p = start;
+    while (p->next != NULL)
+    {
+        p = p->next;
+    }
+    printf("NULL ");
+    while (p != NULL)
+    {
+        printf("<- %d ", p->data);
+        p = p->prev;
+    }
+}
 
 int main()
 {
     int n, value, choice;
     struct doubly_linked_list *start = NULL;
-    // traverse_end(start);
+
     while (1)
     {
+        printf("\nMenu :\n");
         printf("1.Insertion \n");
         printf("2.Deletion \n");
-        printf("3.Traverse \n");
+        printf("3.Traverse from beginning \n");
+        printf("4.Traverse from end \n");
+        printf("5.Exit \n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         switch (choice)
@@ -143,6 +158,12 @@ int main()
         case 3:
             traverse_beginning(start);
             break;
+        case 4:
+            traverse_end(start);
+            break;
+        case 5:
+            printf("Exit\n");
+            exit(0);
         default:
             printf("Invalid choice! Please enter a valid option.\n");
             break;
