@@ -73,6 +73,22 @@ void linear_search(struct singly_linked_list *start)
     printf("Value %d not found in the list.\n", value);
 }
 
+struct singly_linked_list *reverse_list(struct singly_linked_list *start) // reversing the linked list by changing address
+{
+    struct singly_linked_list *p, *q, *n;
+    q = NULL;
+    p = start;
+    while (p != NULL)
+    {
+        n = q;
+        q = p;
+        p = p->next;
+        q->next = n;
+    }
+    start = q;
+    return start;
+}
+
 int main()
 {
     int n, a;
@@ -82,5 +98,7 @@ int main()
     start = create(start, n);
     traverse(start);
     linear_search(start);
+    start = reverse_list(start);
+    traverse(start);
     return 0;
 }
