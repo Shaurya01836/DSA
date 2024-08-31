@@ -23,9 +23,9 @@ int IsFull(struct stack s)
         return 0;
     }
 }
-int IsEmpty(struct stack s)
+int IsEmpty(struct stack *s)
 {
-    if (s.tos == -1)
+    if (s->tos == -1)
     {
         return 1;
     }
@@ -49,20 +49,20 @@ struct stack push(struct stack s, int value)
     }
     return s;
 }
-// struct stack pop(struct stack *s)
-// {
-//     if (IsEmpty(s))
-//     {
-//         printf("Stack Underflow\n");
-//     }
-//     else
-//     {
-//         stack t = s.arr[s.tos];
-//         s.tos = s.tos - 1;
-//         return t;
-//     }
-//     return s;
-// }
+struct stack pop(struct stack *s)
+{
+    if (IsEmpty(s))
+    {
+        printf("Stack Underflow\n");
+        return;
+    }
+    else
+    {
+        int t;
+        t = s->arr[s->tos];
+        s->tos = s->tos - 1;
+    }
+}
 
 void traverse(struct stack s)
 {
@@ -85,7 +85,7 @@ int main()
         scanf("%d", &value);
         s = push(s, value);
     }
-    // pop(s);
+    s = pop(&s);
     traverse(s);
     return 0;
 }

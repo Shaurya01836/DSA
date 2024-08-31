@@ -45,11 +45,11 @@ void traverse(struct circular_list *start)
 {
     struct circular_list *p;
     p = start;
-    while (p->next != start)
+    do
     {
         printf("%d -> ", p->data);
         p = p->next;
-    }
+    } while (p != start);
     printf("NULL\n");
 }
 

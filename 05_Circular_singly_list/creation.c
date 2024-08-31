@@ -16,7 +16,7 @@ struct circular_list *creation(struct circular_list *start, int n)
         return NULL;
     }
     else
-    {
+    { 
         p = (struct circular_list *)malloc(sizeof(struct circular_list));
         printf("Enter the value :");
         scanf("%d", &value);
@@ -41,11 +41,12 @@ void traverse(struct circular_list *start)
 {
     struct circular_list *p;
     p = start;
-    while (p->next != start)
+    do
     {
         printf("%d -> ", p->data);
         p = p->next;
-    }
+    } while (p != start);
+
     printf("NULL\n");
 }
 
