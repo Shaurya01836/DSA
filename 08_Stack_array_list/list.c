@@ -76,6 +76,7 @@ void traverse(struct list *tos)
             printf("%d -> ", p->data);
             p = p->next;
         }
+        printf("Null\n");
     }
 }
 
@@ -83,12 +84,45 @@ int main()
 {
     struct list *tos;
     tos = init(tos);
-    tos = push(tos);
-    tos = push(tos);
-    traverse(tos);
-    Top(tos);
-    tos = dispose(tos);
-    traverse(tos);
+    int choice;
+
+    do
+    {
+        printf("\nMenu\n");
+        printf("1.Push\n");
+        printf("2.Pop\n");
+        printf("3.Top\n");
+        printf("4.Dispose\n");
+        printf("5.Traverse\n");
+        printf("6.Exit\n");
+        printf("Enter your choice :");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            tos = push(tos);
+            break;
+        case 2:
+            break;
+        case 3:
+            Top(tos);
+            break;
+        case 4:
+            tos = dispose(tos);
+            break;
+        case 5:
+            traverse(tos);
+            break;
+        case 6:
+            printf("Exiting");
+            break;
+
+        default:
+            printf("Valid operation");
+            break;
+        }
+    } while (choice != 6);
 
     return 0;
 }
