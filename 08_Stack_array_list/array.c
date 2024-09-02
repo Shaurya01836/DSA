@@ -1,3 +1,4 @@
+// array by the use of stack
 #include <stdio.h>
 
 struct stack
@@ -23,9 +24,9 @@ int IsFull(struct stack s)
         return 0;
     }
 }
-int IsEmpty(struct stack *s)
+int IsEmpty(struct stack s)
 {
-    if (s->tos == -1)
+    if (s.tos == -1)
     {
         return 1;
     }
@@ -51,7 +52,7 @@ struct stack push(struct stack s, int value)
 }
 struct stack pop(struct stack *s)
 {
-    if (IsEmpty(s))
+    if (IsEmpty(*s))
     {
         printf("Stack Underflow\n");
         return *s;
@@ -64,7 +65,7 @@ struct stack pop(struct stack *s)
         return *s;
     }
 }
-struct stack Top(struct stack *s)
+struct stack Top(struct stack s)
 {
     if (IsEmpty(s))
     {
@@ -72,12 +73,22 @@ struct stack Top(struct stack *s)
     }
     else
     {
-        printf("%d", s->arr[s->tos]);
+        printf("%d", s.arr[s.tos]);
     }
 }
-
+struct stack Clear(struct stack s)
+{
+    s.tos = -1;
+    return s;
+}
 void traverse(struct stack s)
 {
+    if (s.tos == -1)
+    {
+        printf("Stack is empty\n");
+        return;
+    }
+
     for (int i = 0; i <= s.tos; i++)
     {
         printf("[%d] ", s.arr[i]);
@@ -97,9 +108,10 @@ int main()
         printf("2.Pop\n");
         printf("3.Top\n");
         printf("4.Traverse\n");
-        printf("5.Is empty\n");
+        printf("5.Clear\n");
         printf("6.Is Full\n");
-        printf("7.Exit\n");
+        printf("7.Is Empty\n");
+        printf("8.Exit\n");
         printf("Enter your choice :");
         scanf("%d", &choice);
 
@@ -114,25 +126,42 @@ int main()
             s = pop(&s);
             break;
         case 3:
-            Top(&s);
+            Top(s);
             break;
         case 4:
             traverse(s);
             break;
         case 5:
-            IsEmpty(&s);
+            s = Clear(s);
             break;
         case 6:
-            IsFull(s);
+            if (IsFull(s))
+            {
+                printf("stack is Full");
+            }
+            else
+            {
+                printf("stack is not Full");
+            }
             break;
         case 7:
+            if (IsEmpty(s))
+            {
+                printf("stack is empty");
+            }
+            else
+            {
+                printf("stack is not empty");
+            }
+            break;
+        case 8:
             printf("Exit...");
             break;
         default:
             printf("Invalid choice ");
             break;
         }
-    } while (choice != 7);
+    } while (choice != 8);
 
     return 0;
 }

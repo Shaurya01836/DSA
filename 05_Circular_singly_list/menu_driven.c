@@ -37,12 +37,16 @@ struct circular_list *Insertion_beg(struct circular_list *start)
     }
     else
     {
+        p = start;
         q = (struct circular_list *)malloc(sizeof(struct circular_list));
         q->data = value;
         q->next = start;
-        p = start;
+        while (p->next != start)
+        {
+            p = p->next;
+        }
+        p->next = q;
         start = q;
-        p->next = start;
     }
     return start;
 }
@@ -101,6 +105,7 @@ struct circular_list *Insertion(struct circular_list *start)
     p->next = q;
     return start;
 }
+
 struct circular_list *Deletion_beg(struct circular_list *start)
 {
     struct circular_list *p;
@@ -119,7 +124,7 @@ struct circular_list *Deletion_beg(struct circular_list *start)
 
 struct circular_list *Deletion_end(struct circular_list *start)
 {
-    struct circular_list *p;
+    struct circular_list *p, *q;
     if (start == NULL)
     {
         printf("Empty list \n");
@@ -127,10 +132,47 @@ struct circular_list *Deletion_end(struct circular_list *start)
     else
     {
         p = start;
-        while (p->next != start)
+        do
         {
-           
+            q = p;
+            p = p->next;
+        } while (p->next != start);
+        free(p);
+        q->next = start;
+    }
+    return start;
+}
+struct circular_list *Deletion(struct circular_list *start)
+{
+    struct circular_list *p, *q;
+    if (start == NULL)
+    {
+        printf("Empty list \n");
+    }
+    else
+    {
+        int value;
+        printf("Enter the value :");
+        scanf("%d", &value);
+        p = start;
+        if (p->data == value)
+        {
+            start = start->next;
+            free(p);
+            return start;
         }
+        while (p->data != value)
+        {
+            q = p;
+            p = p->next;
+            if (p == start)
+            {
+                printf("value not found");
+                return start;
+            }
+        }
+        q->next = p->next;
+        free(p);
     }
     return start;
 }
@@ -151,7 +193,6 @@ void traverse(struct circular_list *start)
         p = p->next;
     } while (p != start);
 
-    printf("NULL\n");
 }
 
 int main()
@@ -166,7 +207,7 @@ int main()
         printf("3. Insert Node at Position\n");
         printf("4. Delete Node at beginning\n");
         printf("5. Delete Node at end\n");
-        printf("6. Delete Node at Position\n");
+        printf("6. Delete Node by value\n");
         printf("7. Traverse Linked List\n");
         printf("8. Exit\n");
         printf("Enter your choice :");
@@ -187,10 +228,10 @@ int main()
             start = Deletion_beg(start);
             break;
         case 5:
-
+            start = Deletion_end(start);
             break;
         case 6:
-
+            start = Deletion(start);
             break;
         case 7:
             traverse(start);
@@ -200,7 +241,7 @@ int main()
             break;
 
         default:
-            printf("Valid operation");
+            printf("InValid operation");
             break;
         }
     } while (choice != 8);

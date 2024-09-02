@@ -1,3 +1,4 @@
+// linked list by stack
 #include <stdio.h>
 #include <stdlib.h>
 struct list
@@ -35,12 +36,29 @@ struct list *push(struct list *tos)
     tos = p;
     return tos;
 };
+struct list *pop(struct list **tos)
+{
+    if (IsEmpty(*tos))
+    {
+        printf("Stack is empty\n");
+    }
+    else
+    {
+        int t;
+        struct list *p;
+        t = (*tos)->data;
+        p = *tos;
+        *tos = (*tos)->next;
+        free(p);
+        return *tos;
+    }
+}
 
 struct list *Top(struct list *tos)
 {
     if (IsEmpty(tos))
     {
-        printf("Stack is empty :");
+        printf("Stack is empty\n");
     }
     else
     {
@@ -94,7 +112,8 @@ int main()
         printf("3.Top\n");
         printf("4.Dispose\n");
         printf("5.Traverse\n");
-        printf("6.Exit\n");
+        printf("6.Is empty \n");
+        printf("7.Exit\n");
         printf("Enter your choice :");
         scanf("%d", &choice);
 
@@ -104,6 +123,7 @@ int main()
             tos = push(tos);
             break;
         case 2:
+            tos = pop(&tos);
             break;
         case 3:
             Top(tos);
@@ -115,14 +135,24 @@ int main()
             traverse(tos);
             break;
         case 6:
-            printf("Exiting");
+            if (IsEmpty(tos))
+            {
+                printf("stack is empty");
+            }
+            else
+            {
+                printf("stack is not empty");
+            }
+            break;
+        case 7:
+            printf("Exit");
             break;
 
         default:
             printf("Valid operation");
             break;
         }
-    } while (choice != 6);
+    } while (choice != 7);
 
     return 0;
 }
