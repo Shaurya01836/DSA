@@ -16,9 +16,10 @@ struct circular_list *getnode(int value)
     p->prev = p->next = p;
     return p;
 }
+
 struct circular_list *Insertion(struct circular_list *start, int value)
 {
-    struct circular_list *p;
+    struct circular_list *p, *q, *r;
     p = getnode(value);
     if (start == NULL)
     {
@@ -29,11 +30,35 @@ struct circular_list *Insertion(struct circular_list *start, int value)
     {
         p->next = start;
         start->prev = p;
-        start->next = p;
-        p->prev = start;
         start = p;
+        q = start->next;
+        do
+        {
+            p = p->next;
+        } while (p->next != q);
+        p->next = start;
+        start->prev = p;
+        p = start;
         return start;
     }
+    r = start;
+    while (r->next != start && value > r->next->data)
+    {
+        r = r->next;
+    }
+    if (r->next != start)
+    {
+        p->next = r->next;
+        p->prev = r;
+        r->next->prev = p;
+        r->next = p;
+    }
+    else
+    {
+        p->prev = r;
+        r->next = p;
+    }
+    return start;
 }
 
 void traverse(struct circular_list *start)

@@ -89,9 +89,10 @@ void traverse(struct stack s)
         return;
     }
 
-    for (int i = 0; i <= s.tos; i++)
+    while (s.tos != -1)
     {
-        printf("[%d] ", s.arr[i]);
+        printf("[%d] ", s.arr[s.tos]);
+        s.tos = s.tos - 1;
     }
 }
 

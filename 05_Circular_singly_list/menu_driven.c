@@ -11,8 +11,9 @@ struct circular_list
 int count(struct circular_list *start)
 {
     struct circular_list *p;
+    int c;
     p = start;
-    int c = 0;
+    c = 0;
     do
     {
         p = p->next;
@@ -25,9 +26,10 @@ int count(struct circular_list *start)
 struct circular_list *Insertion_beg(struct circular_list *start)
 {
     int value;
+
+    struct circular_list *p, *q;
     printf("Enter the value:");
     scanf("%d", &value);
-    struct circular_list *p, *q;
     p = (struct circular_list *)malloc(sizeof(struct circular_list));
     if (start == NULL)
     {
@@ -54,9 +56,9 @@ struct circular_list *Insertion_beg(struct circular_list *start)
 struct circular_list *Insertion_end(struct circular_list *start)
 {
     int value;
+    struct circular_list *p, *q;
     printf("Enter the value:");
     scanf("%d", &value);
-    struct circular_list *p, *q;
     p = (struct circular_list *)malloc(sizeof(struct circular_list));
     if (start == NULL)
     {
@@ -82,20 +84,22 @@ struct circular_list *Insertion_end(struct circular_list *start)
 struct circular_list *Insertion(struct circular_list *start)
 {
     int value, n, pos;
+
+    struct circular_list *p, *q;
+    int i;
     printf("Enter the position:");
     scanf("%d", &pos);
     n = count(start);
-    struct circular_list *p, *q;
     p = (struct circular_list *)malloc(sizeof(struct circular_list));
     p = start;
     if (pos <= 1 || pos > n)
     {
-        printf("Invalid Position\n");
-        return start;
+	printf("Invalid Position\n");
+	return start;
     }
     printf("Enter the value:");
     scanf("%d", &value);
-    for (int i = 1; i < pos - 1; i++)
+    for (i = 1; i < pos - 1; i++)
     {
         p = p->next;
     }
@@ -108,16 +112,20 @@ struct circular_list *Insertion(struct circular_list *start)
 
 struct circular_list *Deletion_beg(struct circular_list *start)
 {
-    struct circular_list *p;
+    struct circular_list *p,*q;
     if (start == NULL)
     {
-        printf("Empty list \n");
+	printf("Empty list \n");
     }
     else
     {
-        p = start;
-        start = start->next;
-        free(p);
+	q=start->next;
+	while(q->next!=start)
+		q=q->next;
+	p = start;
+	start = start->next;
+	q->next=start;
+	free(p);
     }
     return start;
 }
@@ -127,70 +135,77 @@ struct circular_list *Deletion_end(struct circular_list *start)
     struct circular_list *p, *q;
     if (start == NULL)
     {
-        printf("Empty list \n");
+	printf("Empty list \n");
     }
     else
     {
-        p = start;
-        do
-        {
-            q = p;
-            p = p->next;
-        } while (p->next != start);
-        free(p);
-        q->next = start;
+	p = start;
+	do
+	{
+	    q = p;
+	    p = p->next;
+	} while (p->next != start);
+	free(p);
+	q->next = start;
     }
     return start;
 }
 struct circular_list *Deletion(struct circular_list *start)
 {
-    struct circular_list *p, *q;
+    struct circular_list *p, *q,*r;
     if (start == NULL)
     {
-        printf("Empty list \n");
+	printf("Empty list \n");
     }
     else
     {
-        int value;
-        printf("Enter the value :");
-        scanf("%d", &value);
-        p = start;
-        if (p->data == value)
-        {
-            start = start->next;
-            free(p);
-            return start;
-        }
-        while (p->data != value)
-        {
-            q = p;
-            p = p->next;
-            if (p == start)
-            {
-                printf("value not found");
-                return start;
-            }
-        }
-        q->next = p->next;
-        free(p);
+	int value;
+	printf("Enter the value :");
+	scanf("%d", &value);
+	p = start;
+	r=start->next;
+	while(r->next!=start)
+		r=r->next;
+	if (p->data == value)
+	{
+
+	    start = start->next;
+	    r->next=start;
+	    free(p);
+	    return start;
+	}
+	while (p->data != value)
+	{
+	    q = p;
+	    p = p->next;
+	    if (p == start)
+	    {
+		printf("value not found");
+		return start;
+	    }
+	}
+	q->next = p->next;
+	r->next=start;
+	free(p);
     }
     return start;
 }
 
 void traverse(struct circular_list *start)
 {
+    struct circular_list *p;
     if (start == NULL)
     {
-        printf("List is empty\n");
-        return;
+	printf("List is empty\n");
+	return;
     }
 
-    struct circular_list *p;
+
     p = start;
     do
     {
-        printf("%d -> ", p->data);
-        p = p->next;
+	printf("%d -> ", p->data);
+	p = p->next;
     } while (p != start);
 
 }
