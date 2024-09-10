@@ -1,4 +1,4 @@
-// Menu driven Circular Doubly unsorted linked list
+// Menu driven Circular Doubly linked list
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,6 +42,7 @@ struct circular_list *Insertion(struct circular_list *start, int value)
         return start;
     }
     r = start;
+
     while (r->next != start && value > r->next->data)
     {
         r = r->next;
@@ -57,7 +58,48 @@ struct circular_list *Insertion(struct circular_list *start, int value)
     {
         p->prev = r;
         r->next = p;
+        p->next = start;
     }
+    return start;
+}
+
+struct circular_list *Deletion(struct circular_list *start)
+{
+    int value;
+    printf("Enter the value :");
+    scanf("%d", &value);
+    struct circular_list *p, *q;
+    p = start;
+    if (start == NULL)
+    {
+        printf("Empty list \n");
+    }
+    else if (p->data == value)
+    {
+        q = start->next;
+        while (q->next != start)
+        {
+            q = q->next;
+        }
+        p = start;
+        start = start->next;
+        q->next = start;
+        start->prev = q;
+        free(p);
+    }
+    while (p->data != value)
+    {
+        q = p;
+        p = p->next;
+        if (p == start)
+        {
+            printf("Value not found\n");
+            return start;
+        }
+    }
+    q->next = p->next;
+    p->next->prev = q;
+    free(p);
     return start;
 }
 
@@ -95,7 +137,7 @@ int main()
             start = Insertion(start, value);
             break;
         case 2:
-
+            start = Deletion(start);
             break;
         case 3:
             traverse(start);
