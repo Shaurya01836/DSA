@@ -74,6 +74,12 @@ struct circular_list *Deletion(struct circular_list *start)
     {
         printf("Empty list \n");
     }
+    else if (start->next == start && start->data == value)
+    {
+        free(start);
+        start = NULL;
+        return start;
+    }
     else if (p->data == value)
     {
         q = start->next;
