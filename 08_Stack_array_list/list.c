@@ -11,7 +11,7 @@ struct list *init(struct list *tos)
 {
     tos = NULL;
     return tos;
-};
+}
 
 int IsEmpty(struct list *tos)
 {
@@ -35,7 +35,7 @@ struct list *push(struct list *tos)
     p->next = tos;
     tos = p;
     return tos;
-};
+}
 struct list *pop(struct list **tos)
 {
     if (IsEmpty(*tos))
@@ -64,7 +64,7 @@ struct list *Top(struct list *tos)
     {
         printf("\n%d\n", tos->data);
     }
-};
+}
 
 struct list *dispose(struct list *tos)
 {
