@@ -58,6 +58,43 @@ void traverse(struct linked_list *start)
     }
     printf("NULL\n");
 }
+
+struct linked_list *Deletion(struct linked_list *start)
+{
+    struct linked_list *p, *q;
+    if (start == NULL)
+    {
+        printf("Empty list \n");
+        return start;
+    }
+    int value;
+    p = start;
+    printf("Enter the value you want to delete:");
+    scanf("%d", &value);
+    if (p->data == value)
+    {
+        start = start->next;
+        free(p);
+        return start;
+    }
+    else
+    {
+        while (p->data != value)
+        {
+            q = p;
+            p = p->next;
+            if (p == NULL)
+            {
+                printf("Value not found \n");
+                return start;
+            }
+        }
+        q->next = p->next;
+        free(p);
+        return start;
+    }
+}
+
 int main()
 {
     int choice;
@@ -77,7 +114,7 @@ int main()
             start = Insertion(start);
             break;
         case 2:
-
+            start = Deletion(start);
             break;
         case 3:
             traverse(start);
