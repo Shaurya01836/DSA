@@ -63,16 +63,31 @@ void traverse(stack st, int sn)
     switch (sn)
     {
     case 1:
-        for (int i = 0; i <= st.top[0]; i++)
+        if (st.top[sn - 1] == -1)
         {
-            printf("%d ", st.arr[i]);
+            printf("empty");
+        }
+        else
+        {
+            for (int i = 0; i <= st.top[0]; i++)
+            {
+                printf("%d ", st.arr[i]);
+            }
         }
         break;
     case 2:
-        for (int i = MAX - 1; i >= st.top[1]; i--)
+        if (st.top[sn - 1] == 10)
         {
-            printf("%d ", st.arr[i]);
+            printf("empty");
         }
+        else
+        {
+            for (int i = MAX - 1; i >= st.top[1]; i--)
+            {
+                printf("%d ", st.arr[i]);
+            }
+        }
+
         break;
     }
 }
@@ -89,7 +104,7 @@ int main()
         printf("3. Pop in first stack \n");
         printf("4. Pop in second stack\n");
         printf("5. Traverse first stack\n");
-        printf("6. Traverse second staxck \n");
+        printf("6. Traverse second stack \n");
         printf("7.Exit\n");
         printf("Enter your choice :");
         scanf("%d", &ch);
@@ -108,11 +123,23 @@ int main()
             break;
         case 3:
             value = pop(&st, 1);
-            printf("the value is %d", value);
+            if (value == -1)
+            {
+            }
+            else
+            {
+                printf("the value is %d", value);
+            }
             break;
         case 4:
             value = pop(&st, 2);
-            printf("the value is %d", value);
+            if (value == -1)
+            {
+            }
+            else
+            {
+                printf("the value is %d", value);
+            }
             break;
         case 5:
             printf("\n First stack is :");
