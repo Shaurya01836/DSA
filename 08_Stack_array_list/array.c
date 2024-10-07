@@ -50,19 +50,19 @@ struct stack push(struct stack s, int value)
     }
     return s;
 }
-struct stack pop(struct stack *s)
+int pop(struct stack *s)
 {
     if (IsEmpty(*s))
     {
         printf("Stack Underflow\n");
-        return *s;
+        return -1;
     }
     else
     {
         int t;
         t = s->arr[s->tos];
         s->tos = s->tos - 1;
-        return *s;
+        return t;
     }
 }
 struct stack Top(struct stack s)
@@ -99,7 +99,7 @@ void traverse(struct stack s)
 int main()
 {
     struct stack s = init(s);
-    int choice, value;
+    int choice, value, t;
 
     do
     {
@@ -124,7 +124,14 @@ int main()
             s = push(s, value);
             break;
         case 2:
-            s = pop(&s);
+            t = pop(&s);
+            if (t == -1)
+            {
+            }
+            else
+            {
+                printf("The value popped is %d", t);
+            }
             break;
         case 3:
             Top(s);
