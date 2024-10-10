@@ -1,16 +1,13 @@
 #include<stdio.h>
-#include<conio.h>
 
 void readPoly(int a[]){
-    int i, j;
     printf("Enter total non zero terms :");
     scanf("%d", &a[0]);
-    for(i = 1; i <= (2*a[0]); i=i+2){
+    for(int i = 1; i <= (2*a[0]); i=i+2){
         printf("Enter exponent of term : ");
         scanf("%d", &a[i]);
         printf("Enter coefficient of term : ");
         scanf("%d" ,&(a[i+1]));
-        j++;
     }
 }
 
