@@ -1,3 +1,4 @@
+// sort an array by using bubble sort 
 #include <stdio.h>
 #define MAX (10)
 
