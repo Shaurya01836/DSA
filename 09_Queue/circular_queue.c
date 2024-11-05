@@ -164,7 +164,7 @@ int main()
             else
             {
                 printf("Queue is not empty");
-            }
+            }  
             break;
         case 6:
             if (IsFull(q))

@@ -13,7 +13,7 @@ struct queue
 struct queue *create_queue()
 {
     struct queue *q = (struct queue *)malloc(sizeof(struct queue));
-    q->front = q->rear = -1;
+    q->front = q->rear = -1; 
     return q;
 }
 
