@@ -1,3 +1,4 @@
+// Binary search tree
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -162,7 +163,7 @@ void traverseInorder(struct BstTree *tree)
     if (tree != NULL)
     {
         traverseInorder(tree->left);
-        printf(" %d - >", tree->data);
+        printf("%d ", tree->data);
         traverseInorder(tree->right);
     }
 }
@@ -171,7 +172,7 @@ void traversePreorder(struct BstTree *tree)
 {
     if (tree != NULL)
     {
-        printf(" %d - >", tree->data);
+        printf("%d ", tree->data);
         traversePreorder(tree->left);
         traversePreorder(tree->right);
     }
@@ -183,7 +184,7 @@ void traversePostorder(struct BstTree *tree)
     {
         traversePostorder(tree->left);
         traversePostorder(tree->right);
-        printf(" %d - >", tree->data);
+        printf("%d ", tree->data);
     }
 }
 
@@ -208,6 +209,11 @@ int nodeCount(struct BstTree *tree)
 
 int smallest(struct BstTree *tree)
 {
+    if (tree == NULL)
+    {
+        printf("Tree is empty\n");
+        return -1;
+    }
     if (tree == NULL || tree->left == NULL)
     {
         return tree->data;
@@ -220,6 +226,11 @@ int smallest(struct BstTree *tree)
 
 int largest(struct BstTree *tree)
 {
+    if (tree == NULL)
+    {
+        printf("Tree is empty\n");
+        return -1;
+    }
     if (tree == NULL || tree->right == NULL)
     {
         return tree->data;
@@ -325,12 +336,14 @@ int main()
 
         case 10:
             count = smallest(tree);
-            printf("smallest value : %d", count);
+            if (count != -1) // Check if tree is empty
+                printf("Smallest value: %d\n", count);
             break;
 
         case 11:
             count = largest(tree);
-            printf("Largest value : %d", count);
+            if (count != -1)
+                printf("Largest value: %d\n", count);
             break;
         case 12:
             printf("Exit ");

@@ -1,3 +1,5 @@
+// Queue by an linked list
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,9 +14,11 @@ struct queue
     struct list *front, *rear;
 };
 
-void create_queue(struct queue *q)
+struct queue *create_queue()
 {
+    struct queue *q = (struct queue *)malloc(sizeof(struct queue));
     q->front = q->rear = NULL;
+    return q;
 }
 
 int isEmpty(struct queue *q)
@@ -40,7 +44,7 @@ void Enqueue(struct queue *q)
     }
     else
     {
-        q->rear->next = p;
+        (q->rear)->next = p;
         q->rear = p;
     }
 }
@@ -64,6 +68,7 @@ int Dequeue(struct queue *q)
     {
         q->front = (q->front)->next;
     }
+    free(p);
     return t;
 }
 
@@ -84,7 +89,7 @@ void traverse(struct queue *q)
     p = q->front;
     while (p != NULL)
     {
-        printf("[%d] \n", p->data);
+        printf("[%d] ", p->data);
         p = p->next;
     }
 }
@@ -99,14 +104,13 @@ void dispose(struct queue *q)
         free(p);
     }
     q->rear = NULL;
+    printf("Queue disposed.\n");
 }
 
 int main()
 {
-    struct queue q;
-    create_queue(&q);
-
-    int choice, value;
+    struct queue *q = create_queue();
+    int choice, value, t;
 
     do
     {
@@ -124,40 +128,44 @@ int main()
         switch (choice)
         {
         case 1:
-            Enqueue(&q);
+            Enqueue(q);
             break;
         case 2:
-            value = Dequeue(&q);
+            value = Dequeue(q);
             if (value != -1)
             {
                 printf("Dequeued: %d\n", value);
             }
             break;
         case 3:
-            if (isEmpty(&q))
-                printf("Yes, the queue is empty.\n");
+            if (isEmpty(q))
+                printf("The queue is empty.\n");
             else
                 printf("Queue is not empty.\n");
             break;
         case 4:
-            traverse(&q);
+            traverse(q);
             break;
         case 5:
-            dispose(&q);
+            dispose(q);
             break;
         case 6:
-            Front(&q);
-            
+            if (isEmpty(q))
+                printf("The queue is empty.\n");
+            else
+            {
+                t = Front(q);
+                printf("%d", t);
+            }
             break;
         case 7:
             printf("Exiting program.\n");
             break;
         default:
-            printf("Invalid choice! Please try again.\n");
+            printf("Invalid choice!\n");
             break;
         }
-    } while (choice != 6);
+    } while (choice != 7);
 
-    dispose(&q);
     return 0;
 }
