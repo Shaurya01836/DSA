@@ -1,0 +1,14 @@
+# Ignore executable files
+*.exe
+
+# Ignore object files
+*.o
+*.obj
+
+# Ignore debugging files
+*.pdb
+*.ilk
+
+# Ignore other temporary files
+*.tmp
+*.log
