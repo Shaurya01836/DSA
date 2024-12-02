@@ -30,7 +30,7 @@ void print(int arr[][3], int n)
     }
 }
 
-void transpose(int A[][3], int B[][3])
+void fast_transpose(int A[][3], int B[][3])
 {
     int C[10], S[10];
     int m = A[0][0];
@@ -60,7 +60,7 @@ void transpose(int A[][3], int B[][3])
         S[k] = S[k - 1] + C[k - 1];
     }
 
-    // Transpose the matrix
+   
     for (int i = 1; i <= t; i++)
     {
         int j = A[i][1];
@@ -78,10 +78,10 @@ int main()
     int arr[50][3];
     int b[50][3];
     nterms = read_array(arr);
-    printf("\n \nMatrix before transpose\n");
+    printf("\n \nMatrix before fast_transpose\n");
     print(arr, nterms);
-    transpose(arr, b);
-    printf("\n \nMatrix after transpose\n");
+    fast_transpose(arr, b);
+    printf("\n \nMatrix after fast_transpose\n");
     print(b, nterms);
     return 0;
 }
