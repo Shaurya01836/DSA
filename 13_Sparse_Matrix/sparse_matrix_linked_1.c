@@ -95,6 +95,7 @@ void printMatrix(struct headerNode *start)
         printf("Matrix is empty.\n");
         return;
     }
+    printf("[%d]    [%d] [%d]\n", start->nRow, start->nCol, start->nTerm);
     struct rowNode *row = start->head;
     struct columnNode *col;
 
@@ -116,12 +117,12 @@ void printMatrix(struct headerNode *start)
     }
 }
 
-int readArray(struct headerNode *start, int arr[][3])
+void readArray(struct headerNode *start, int arr[][3])
 {
     if (start == NULL)
     {
         printf("Matrix is empty.\n");
-        return -1;
+        return ;
     }
     arr[0][0] = start->nRow;
     arr[0][1] = start->nCol;
@@ -136,7 +137,6 @@ int readArray(struct headerNode *start, int arr[][3])
         col = row->first;
         while (col != NULL)
         {
-
             arr[i][1] = col->col;
             arr[i][2] = col->elem;
             col = col->link;
@@ -149,7 +149,7 @@ int readArray(struct headerNode *start, int arr[][3])
         row = row->next;
         i++;
     }
-    return arr[0][2];
+   
 }
 
 void fast_transpose(int A[][3], int B[][3])
@@ -193,13 +193,13 @@ void fast_transpose(int A[][3], int B[][3])
     }
 }
 
-void arrayToLinked(int arr[][3], struct headerNode **start)
+void arrayToLinked(int arr[][3], struct headerNode **start1)
 {
-    *start = (struct headerNode *)malloc(sizeof(struct headerNode));
-    (*start)->nRow = arr[0][0];
-    (*start)->nCol = arr[0][1];
-    (*start)->nTerm = arr[0][2];
-    (*start)->head = NULL;
+    *start1 = (struct headerNode *)malloc(sizeof(struct headerNode));
+    (*start1)->nRow = arr[0][0];
+    (*start1)->nCol = arr[0][1];
+    (*start1)->nTerm = arr[0][2];
+    (*start1)->head = NULL;
 
     struct rowNode *currentRow = NULL, *newRow;
     struct columnNode *currentCol = NULL, *newCol;
@@ -212,9 +212,9 @@ void arrayToLinked(int arr[][3], struct headerNode **start)
             newRow->row = arr[i][0];
             newRow->first = NULL;
             newRow->next = NULL;
-            if ((*start)->head == NULL)
+            if ((*start1)->head == NULL)
             {
-                (*start)->head = newRow;
+                (*start1)->head = newRow;
             }
             else
             {
@@ -241,13 +241,12 @@ void arrayToLinked(int arr[][3], struct headerNode **start)
 
 int main()
 {
-    int n;
     int arr[50][3], b[50][3];
     struct headerNode *start = NULL, *transposedStart = NULL;
     readMatrix(&start);
     printf("Sparse Matrix Representation:\n");
     printMatrix(start);
-    n = readArray(start, arr);
+     readArray(start, arr);
     fast_transpose(arr, b);
     arrayToLinked(b, &transposedStart);
     printf("\nTransposed Sparse Matrix Representation:\n");
