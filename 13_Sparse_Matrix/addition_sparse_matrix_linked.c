@@ -58,7 +58,6 @@ void readMatrix(struct headerNode **start)
         {
             newRow = (struct rowNode *)malloc(sizeof(struct rowNode));
             newRow->row = row;
-
             newRow->first = NULL;
             newRow->next = NULL;
             if ((*start)->head == NULL)
@@ -119,7 +118,6 @@ void printMatrix(struct headerNode *start)
 
 void addSparseMatrix(struct headerNode *mat1, struct headerNode *mat2, struct headerNode **mat3)
 {
-
     *mat3 = (struct headerNode *)malloc(sizeof(struct headerNode));
     (*mat3)->nRow = mat1->nRow;
     (*mat3)->nCol = mat1->nCol;
@@ -127,73 +125,158 @@ void addSparseMatrix(struct headerNode *mat1, struct headerNode *mat2, struct he
     (*mat3)->head = NULL;
 
     struct rowNode *row1 = mat1->head, *row2 = mat2->head, *newRow = NULL, *lastRow = NULL;
-    struct columnNode *col1, *col2, *newCol, *lastCol = NULL;
+    struct columnNode *col1, *col2, *newCol, *lastCol;
 
     while (row1 != NULL || row2 != NULL)
     {
-        newRow = (struct rowNode *)malloc(sizeof(struct rowNode));
-        newRow->row = (row2 == NULL || (row1 != NULL && row1->row < row2->row)) ? row1->row : row2->row;
-        newRow->first = NULL;
-        newRow->next = NULL;
-
-        if ((*mat3)->head == NULL)
+        if (row2 == NULL || (row1 != NULL && row1->row < row2->row))
         {
-            (*mat3)->head = newRow;
-        }
-        else
-        {
-            lastRow->next = newRow;
-        }
-        lastRow = newRow;
+            // Copy row from mat1
+            newRow = (struct rowNode *)malloc(sizeof(struct rowNode));
+            newRow->row = row1->row;
+            newRow->first = NULL;
+            newRow->next = NULL;
 
-        col1 = (row1 != NULL && row1->row == newRow->row) ? row1->first : NULL;
-        col2 = (row2 != NULL && row2->row == newRow->row) ? row2->first : NULL;
-
-        lastCol = NULL;
-
-        while (col1 != NULL || col2 != NULL)
-        {
-            newCol = (struct columnNode *)malloc(sizeof(struct columnNode));
-            if (col2 == NULL || (col1 != NULL && col1->col < col2->col))
+            if ((*mat3)->head == NULL)
             {
+                (*mat3)->head = newRow;
+            }
+            else
+            {
+                lastRow->next = newRow;
+            }
+            lastRow = newRow;
+
+            col1 = row1->first;
+            lastCol = NULL;
+            while (col1 != NULL)
+            {
+                newCol = (struct columnNode *)malloc(sizeof(struct columnNode));
                 newCol->col = col1->col;
                 newCol->elem = col1->elem;
+                newCol->link = NULL;
+
+                if (newRow->first == NULL)
+                {
+                    newRow->first = newCol;
+                }
+                else
+                {
+                    lastCol->link = newCol;
+                }
+                lastCol = newCol;
+
+                (*mat3)->nTerm++;
                 col1 = col1->link;
             }
-            else if (col1 == NULL || (col2 != NULL && col1->col > col2->col))
-            {
-                newCol->col = col2->col;
-                newCol->elem = col2->elem;
-                col2 = col2->link;
-            }
-            else
-            {
-                newCol->col = col1->col;
-                newCol->elem = col1->elem + col2->elem;
-                col1 = col1->link;
-                col2 = col2->link;
-            }
-            newCol->link = NULL;
-
-            if (newRow->first == NULL)
-            {
-                newRow->first = newCol;
-            }
-            else
-            {
-                lastCol->link = newCol;
-            }
-            lastCol = newCol;
-
-            (*mat3)->nTerm++;
-        }
-
-        if (row1 != NULL && row1->row == newRow->row)
-        {
             row1 = row1->next;
         }
-        if (row2 != NULL && row2->row == newRow->row)
+        else if (row1 == NULL || (row2 != NULL && row1->row > row2->row))
         {
+            // Copy row from mat2
+            newRow = (struct rowNode *)malloc(sizeof(struct rowNode));
+            newRow->row = row2->row;
+            newRow->first = NULL;
+            newRow->next = NULL;
+
+            if ((*mat3)->head == NULL)
+            {
+                (*mat3)->head = newRow;
+            }
+            else
+            {
+                lastRow->next = newRow;
+            }
+            lastRow = newRow;
+
+            col2 = row2->first;
+            lastCol = NULL;
+            while (col2 != NULL)
+            {
+                newCol = (struct columnNode *)malloc(sizeof(struct columnNode));
+                newCol->col = col2->col;
+                newCol->elem = col2->elem;
+                newCol->link = NULL;
+
+                if (newRow->first == NULL)
+                {
+                    newRow->first = newCol;
+                }
+                else
+                {
+                    lastCol->link = newCol;
+                }
+                lastCol = newCol;
+
+                (*mat3)->nTerm++;
+                col2 = col2->link;
+            }
+            row2 = row2->next;
+        }
+        else
+        { // Rows are equal
+            newRow = (struct rowNode *)malloc(sizeof(struct rowNode));
+            newRow->row = row1->row;
+            newRow->first = NULL;
+            newRow->next = NULL;
+
+            if ((*mat3)->head == NULL)
+            {
+                (*mat3)->head = newRow;
+            }
+            else
+            {
+                lastRow->next = newRow;
+            }
+            lastRow = newRow;
+
+            col1 = row1->first;
+            col2 = row2->first;
+            lastCol = NULL;
+            while (col1 != NULL || col2 != NULL)
+            {
+                if (col2 == NULL || (col1 != NULL && col1->col < col2->col))
+                {
+                    // rows are equal and copying col1 as it is less
+                    newCol = (struct columnNode *)malloc(sizeof(struct columnNode));
+                    newCol->col = col1->col;
+                    newCol->elem = col1->elem;
+                    newCol->link = NULL;
+                    col1 = col1->link;
+                }
+                else if (col1 == NULL || (col2 != NULL && col1->col > col2->col))
+                {
+                    // rows are equal and copying col2 as it is less
+                    newCol = (struct columnNode *)malloc(sizeof(struct columnNode));
+                    newCol->col = col2->col;
+                    newCol->elem = col2->elem;
+                    newCol->link = NULL;
+                    col2 = col2->link;
+                }
+                else
+                { 
+                    // rows are equal and col are also equal
+                    newCol = (struct columnNode *)malloc(sizeof(struct columnNode));
+                    newCol->col = col1->col;
+                    newCol->elem = col1->elem + col2->elem;
+                    newCol->link = NULL;
+                    col1 = col1->link;
+                    col2 = col2->link;
+                }
+
+                if (newRow->first == NULL)
+                {
+                    newRow->first = newCol;
+                }
+                else
+                {
+                    lastCol->link = newCol;
+                }
+                lastCol = newCol;
+
+                (*mat3)->nTerm++;
+            }
+            row1 = row1->next;
             row2 = row2->next;
         }
     }
